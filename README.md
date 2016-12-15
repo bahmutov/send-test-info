@@ -29,7 +29,7 @@ filename.
 ```js
 const sendTestInfo = require('send-test-info')
 // filename is optional
-sendTestInfo(__filename)
+sendTestInfo({spec: __filename})
 
 describe('Test page', function () {
   // unit tests
@@ -51,6 +51,25 @@ Errors generated during end to end tests can be quickly triaged and recreated
 by just looking at the exception tags
 
 ![images/sentry-view.png](images/sentry-view.png)
+
+## API options
+
+You can pass multiple options that control how many times it will search for
+Raven and add context.
+See [cypress/integration/send-test-info-spec.js](cypress/integration/send-test-info-spec.js)
+as an example.
+
+```js
+sendTestInfo({
+  spec: __filename,    // the name of the spec file
+  maxCheckTimes: 10,   // how many times we should try finding Raven
+  maxRavenInstalls: 1, // how many times should we find Raven
+                       // and keep looking again. Good if there are new pages
+                       // loaded and Raven is installed again
+  interval: 1000,      // interval (ms) between checks for Raven
+  debug: true          // print log messages to the console
+})
+```
 
 ### Small print
 

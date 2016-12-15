@@ -1,5 +1,11 @@
 const sendTestInfo = require('../..')
-sendTestInfo(__filename)
+sendTestInfo({
+  spec: __filename,
+  maxCheckTimes: 10,
+  maxRavenInstalls: 1,
+  interval: 1000,
+  debug: true
+})
 
 describe('Test page', function(){
   it('cy.should - assert that <title> is correct', function(){

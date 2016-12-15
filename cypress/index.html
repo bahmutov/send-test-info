@@ -13,10 +13,13 @@
   for Raven to send to Sentry</p>
 </main>
 <script>
-setTimeout(function () {
-  console.log('capturing an exeption')
-  Raven.captureException(new Error('Error on purpose'))
-}, 10000)
+function testExceptionSend() {
+  setTimeout(function () {
+    console.log('capturing an exception')
+    Raven.captureException(new Error('Error on purpose'))
+  }, 10000)
+}
+testExceptionSend()
 </script>
 </body>
 </html>
