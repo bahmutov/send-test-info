@@ -20,8 +20,21 @@ function sendTestInfo ({
   }
 
   function getCypressTestTitle () {
-    return typeof cy === 'object' &&
-      cy.privates && cy.privates.runnable && cy.privates.runnable.title
+    if (typeof cy !== 'object') {
+      return
+    }
+    if (!cy.privates) {
+      return
+    }
+    if (!cy.privates.runnable) {
+      return
+    }
+    const runnable = cy.privates.runnable
+    const ctx = runnable.ctx
+    if (ctx) {
+      return ctx.currentTest && ctx.currentTest.title
+    }
+    return runnable.title
   }
 
   function setupSendTestInfo () {
