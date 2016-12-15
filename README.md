@@ -16,7 +16,7 @@ and [Raven.js client](https://github.com/getsentry/raven-js)
 to send exceptions to [Sentry](https://sentry.io/).
 
 ```sh
-npm i -D send-test-info
+npm install --save-dev send-test-info
 ```
 
 ## Use
@@ -25,7 +25,8 @@ From any spec file, require and call a single function with the spec's
 filename.
 
 ```js
-const sendTestInfo = require('../..')
+const sendTestInfo = require('send-test-info')
+// filename is optional
 sendTestInfo(__filename)
 
 describe('Test page', function () {
