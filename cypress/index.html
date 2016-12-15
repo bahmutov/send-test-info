@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>test</title>
+  <script src="https://cdn.ravenjs.com/3.9.1/raven.min.js"></script>
+  <script>
+  Raven.config('https://07b50d7664f343609a04d3886096156a@sentry.io/122391').install()
+  </script>
+</head>
+<body>
+<main>
+  <p>This is a test page. In 10 second it will throw an exception
+  for Raven to send to Sentry</p>
+</main>
+<script>
+setTimeout(function () {
+  console.log('capturing an exeption')
+  Raven.captureException(new Error('Error on purpose'))
+}, 10000)
+</script>
+</body>
+</html>
