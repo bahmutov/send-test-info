@@ -31,24 +31,33 @@ function sendTestInfo ({spec, interval, maxCheckTimes, maxRavenInstalls, debug})
         let installedCounter = 0
         // we are not clearing the interval because the page
         // might be reloaded and the first Raven replaced with another one
+        let prevRaven
         const handle = setInterval(() => {
+          counter += 1
+
           if (hasRaven(w)) {
             // TODO it would be more efficient to detect page reloads
             // and only then set the context again
-            installedCounter += 1
-            log('Found Raven on counter', counter,
-              'will be install', installedCounter)
-            w.Raven
-              .setExtraContext(info)
-              .setTagsContext(info)
-            if (installedCounter >= maxRavenInstalls) {
-              log('Found Raven desired number of times', maxRavenInstalls)
-              log('Will no longer wait for it')
-              clearInterval(handle)
-              return
+            if (w.Raven === prevRaven) {
+              log('Raven reference already seen')
+            } else {
+              prevRaven = w.Raven
+
+              installedCounter += 1
+              log('Found Raven on counter', counter,
+                'will be install', installedCounter)
+              w.Raven
+                .setExtraContext(info)
+                .setTagsContext(info)
+              if (installedCounter >= maxRavenInstalls) {
+                log('Found Raven desired number of times', maxRavenInstalls)
+                log('Will no longer wait for it')
+                clearInterval(handle)
+                return
+              }
             }
           }
-          counter += 1
+
           if (counter > maxCheckTimes) {
             log('Reached max checks for Raven', maxCheckTimes)
             clearInterval(handle)

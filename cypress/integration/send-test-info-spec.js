@@ -1,8 +1,8 @@
 const sendTestInfo = require('../..')
 sendTestInfo({
   spec: __filename,
-  maxCheckTimes: 10,
-  maxRavenInstalls: 1,
+  maxCheckTimes: 20,
+  maxRavenInstalls: 2,
   interval: 1000,
   debug: true
 })
