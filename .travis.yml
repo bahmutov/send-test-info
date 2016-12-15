@@ -9,6 +9,7 @@ node_js:
 before_script:
   - npm prune
   - npm i -g cypress-cli
+  - cypress install
 script:
   - npm test
   - cypress run
