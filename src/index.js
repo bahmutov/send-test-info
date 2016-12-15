@@ -8,16 +8,26 @@ function hasRaven (win) {
 
 function noop () {}
 
-function sendTestInfo ({spec, interval, maxCheckTimes, maxRavenInstalls, debug}) {
+function sendTestInfo ({
+  spec, interval, maxCheckTimes, maxRavenInstalls, debug, immediate}) {
   interval = interval || 5000
   maxCheckTimes = maxCheckTimes || 1000
   maxRavenInstalls = maxRavenInstalls || 10
   const log = debug ? console.log : noop
 
-  // cannot use arrow function here, need full function with context
-  beforeEach(function () {
-    const testName = this &&
-      this.currentTest && this.currentTest.fullTitle() || 'anonymous'
+  function getMochaTestTitle () {
+    return this && this.currentTest && this.currentTest.fullTitle()
+  }
+
+  function getCypressTestTitle () {
+    return typeof cy === 'object' &&
+      cy.privates && cy.privates.runnable && cy.privates.runnable.title
+  }
+
+  function setupSendTestInfo () {
+    const testName = getMochaTestTitle() ||
+      getCypressTestTitle() || 'anonymous'
+
     const info = {testName}
     if (typeof spec === 'string') {
       info.spec = spec
@@ -64,7 +74,15 @@ function sendTestInfo ({spec, interval, maxCheckTimes, maxRavenInstalls, debug})
           }
         }, interval)
       })
-  })
+  }
+
+  if (immediate) {
+    log('Immediate Raven setup without going through beforeEach')
+    setupSendTestInfo()
+  } else {
+    // cannot use arrow function here, need full function with context
+    beforeEach(setupSendTestInfo)
+  }
 }
 
 module.exports = sendTestInfo

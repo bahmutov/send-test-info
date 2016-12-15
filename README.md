@@ -61,13 +61,16 @@ as an example.
 
 ```js
 sendTestInfo({
-  spec: __filename,    // the name of the spec file
-  maxCheckTimes: 10,   // how many times we should try finding Raven
-  maxRavenInstalls: 1, // how many times should we find Raven
-                       // and keep looking again. Good if there are new pages
-                       // loaded and Raven is installed again
-  interval: 1000,      // interval (ms) between checks for Raven
-  debug: true          // print log messages to the console
+  spec: __filename,     // the name of the spec file
+  maxCheckTimes: 10,    // how many times we should try finding Raven
+  maxRavenInstalls: 1,  // how many times should we find Raven
+                        // and keep looking again. Good if there are new pages
+                        // loaded and Raven is installed again
+  interval: 1000,       // interval (ms) between checks for Raven
+  debug: true           // print log messages to the console
+  immediate: false      // start searching for Raven immediately without
+                        // using "beforeEach" callback. Good for setting up
+                        // inside a Cypress command (like "login")
 })
 ```
 
