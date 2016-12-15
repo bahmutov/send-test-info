@@ -9,7 +9,7 @@ node_js:
 before_script:
   - npm prune
   - npm i -g cypress-cli
-test:
+script:
   - npm test
   - cypress run
 after_success:
