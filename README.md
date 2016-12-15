@@ -8,6 +8,8 @@
 [![semantic-release][semantic-image] ][semantic-url]
 [![js-standard-style][standard-image]][standard-url]
 
+Read [Connecting crash reporting with end to end tests](https://glebbahmutov.com/blog/connecting-crash-reporting-with-end-to-end-tests/)
+
 ## Install
 
 Add this module to any project that uses [Cypress](https://www.cypress.io/)
