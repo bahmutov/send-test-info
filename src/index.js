@@ -1,6 +1,6 @@
 'use strict'
 
-/* global beforeEach, cy */
+/* global beforeEach, cy, Cypress */
 
 function hasRaven (win) {
   return typeof win === 'object' && win.Raven
@@ -72,6 +72,25 @@ function sendTestInfo ({
               w.Raven
                 .setExtraContext(info)
                 .setTagsContext(info)
+
+              // using "all" records all events
+              // for now record just most common ones
+              const events = ['log', 'log:state:changed', 'test:after:run']
+              events.forEach(eventName => {
+                Cypress.on(eventName, function (obj) {
+                  // only record useful properties
+                  const data = Cypress._.pick(obj,
+                    'name', 'err', 'instrument', 'url', 'hookName',
+                    'consoleProps', 'state', 'renderProps', 'message',
+                    'expected', 'actual',
+                    'viewportWidth', 'viewportHeight')
+
+                  const message = eventName
+                  const category = 'Cypress'
+                  w.Raven.captureBreadcrumb({message, category, data})
+                })
+              })
+
               if (installedCounter >= maxRavenInstalls) {
                 log('Found Raven desired number of times', maxRavenInstalls)
                 log('Will no longer wait for it')

@@ -36,6 +36,7 @@
   ],
   "homepage": "https://github.com/bahmutov/send-test-info#readme",
   "keywords": [
+    "Cypress",
     "cypress",
     "mocha",
     "raven",
@@ -46,7 +47,6 @@
   ],
   "license": "MIT",
   "main": "src/",
-  "noScopeName": "send-test-info",
   "publishConfig": {
     "registry": "http://registry.npmjs.org/"
   },

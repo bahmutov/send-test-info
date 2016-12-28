@@ -74,6 +74,16 @@ sendTestInfo({
 })
 ```
 
+## Cypress breadcrumbs
+
+This module also subscribes to Cypress events using `Cypress.on(...)`
+syntax and adds the information to the
+[Raven breadcrumbs](https://docs.sentry.io/clients/javascript/usage/#recording-breadcrumbs).
+As the result, the exception will have very useful list of logical steps
+taken by the test before the crash.
+
+![Cypress breadcrumbs](images/cypress-breadcrumbs.png)
+
 ### Small print
 
 Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2016
