@@ -22,7 +22,8 @@
       "post-commit": [],
       "post-merge": [],
       "post-checkout": [
-        "npm install"
+        "npm install",
+        "npm prune"
       ]
     }
   },
