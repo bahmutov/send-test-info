@@ -67,10 +67,11 @@ sendTestInfo({
                         // and keep looking again. Good if there are new pages
                         // loaded and Raven is installed again
   interval: 1000,       // interval (ms) between checks for Raven
-  debug: true           // print log messages to the console
-  immediate: false      // start searching for Raven immediately without
+  debug: true,          // print log messages to the console
+  immediate: false,     // start searching for Raven immediately without
                         // using "beforeEach" callback. Good for setting up
                         // inside a Cypress command (like "login")
+  breadcrumbs: false    // record Cypress commands as breadcrumbs (see below)
 })
 ```
 

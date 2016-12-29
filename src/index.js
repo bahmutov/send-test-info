@@ -9,7 +9,8 @@ function hasRaven (win) {
 function noop () {}
 
 function sendTestInfo ({
-  spec, interval, maxCheckTimes, maxRavenInstalls, debug, immediate}) {
+  spec, interval, maxCheckTimes, maxRavenInstalls, debug, immediate,
+  breadcrumbs}) {
   interval = interval || 5000
   maxCheckTimes = maxCheckTimes || 1000
   maxRavenInstalls = maxRavenInstalls || 10
@@ -47,6 +48,26 @@ function sendTestInfo ({
     }
     log('Test info', info.testName)
 
+    function recordBreadcrumbs (raven) {
+      // using "all" records all events
+      // for now record just most common ones
+      const events = ['log', 'log:state:changed', 'test:after:run']
+      events.forEach(eventName => {
+        Cypress.on(eventName, function (obj) {
+          // only record useful properties
+          const data = Cypress._.pick(obj,
+            'name', 'err', 'instrument', 'url', 'hookName',
+            'consoleProps', 'state', 'renderProps', 'message',
+            'expected', 'actual',
+            'viewportWidth', 'viewportHeight')
+
+          const message = eventName
+          const category = 'Cypress'
+          raven.captureBreadcrumb({message, category, data})
+        })
+      })
+    }
+
     // prepare for possible future Raven install
     cy.window()
       .then(w => {
@@ -73,23 +94,9 @@ function sendTestInfo ({
                 .setExtraContext(info)
                 .setTagsContext(info)
 
-              // using "all" records all events
-              // for now record just most common ones
-              const events = ['log', 'log:state:changed', 'test:after:run']
-              events.forEach(eventName => {
-                Cypress.on(eventName, function (obj) {
-                  // only record useful properties
-                  const data = Cypress._.pick(obj,
-                    'name', 'err', 'instrument', 'url', 'hookName',
-                    'consoleProps', 'state', 'renderProps', 'message',
-                    'expected', 'actual',
-                    'viewportWidth', 'viewportHeight')
-
-                  const message = eventName
-                  const category = 'Cypress'
-                  w.Raven.captureBreadcrumb({message, category, data})
-                })
-              })
+              if (breadcrumbs) {
+                recordBreadcrumbs(w.Raven)
+              }
 
               if (installedCounter >= maxRavenInstalls) {
                 log('Found Raven desired number of times', maxRavenInstalls)
