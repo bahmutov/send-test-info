@@ -63,7 +63,10 @@ function sendTestInfo ({
 
           const message = eventName
           const category = 'Cypress'
-          raven.captureBreadcrumb({message, category, data})
+          // make sure Raven reference is valid
+          if (raven) {
+            raven.captureBreadcrumb({message, category, data})
+          }
         })
       })
     }
