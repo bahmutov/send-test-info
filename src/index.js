@@ -24,13 +24,16 @@ function sendTestInfo ({
     if (typeof cy !== 'object') {
       return
     }
-    if (!cy.privates) {
+    if (!cy.state) {
       return
     }
-    if (!cy.privates.runnable) {
+    
+    const runnable = cy.state('runnable')
+        
+    if (!runnable) {
       return
     }
-    const runnable = cy.privates.runnable
+
     const ctx = runnable.ctx
     if (ctx) {
       return ctx.currentTest && ctx.currentTest.title
