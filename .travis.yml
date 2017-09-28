@@ -5,10 +5,9 @@ cache:
 notifications:
   email: true
 node_js:
-  - '6'
+  - '8'
 before_script:
   - npm prune
-  - npm i cypress@0.20.1
 script:
   - npm test
   - $(npm bin)/cypress run
