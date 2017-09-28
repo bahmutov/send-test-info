@@ -27,9 +27,9 @@ function sendTestInfo ({
     if (!cy.state) {
       return
     }
-    
+
     const runnable = cy.state('runnable')
-        
+
     if (!runnable) {
       return
     }
