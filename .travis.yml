@@ -3,16 +3,15 @@ cache:
   directories:
     - node_modules
 notifications:
-  email: false
+  email: true
 node_js:
   - '6'
 before_script:
   - npm prune
-  - npm i -g cypress-cli
-  - cypress install
+  - npm i cypress@0.20.1
 script:
   - npm test
-  - cypress run
+  - $(npm bin)/cypress run
 after_success:
   - npm run semantic-release
 branches:
